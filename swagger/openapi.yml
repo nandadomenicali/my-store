@@ -121,11 +121,6 @@ paths:
         - Product
       summary: Update a Product
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
         - name: Authorization
           description: "Authorization Bearer <token>"
           in: header
@@ -139,6 +134,11 @@ paths:
           example: 843e5420-e767-45f3-aee3-ca9a16233352
           schema:
             type: string
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       requestBody:
         required: true
         content:
@@ -147,7 +147,7 @@ paths:
               $ref: '#/components/schemas/RequestProduct'
       responses:
         '200':
-          description: Update successfully
+          description: Successfully
           content:
             application/json:
               schema:
@@ -161,17 +161,11 @@ paths:
               example: 
                 message: Internal Server Error
 
-  /api/product/delete/{id}:
     delete:
       tags:
         - Product
-      summary: Update a Product
+      summary: Delete a Product
       parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
         - name: Authorization
           description: "Authorization Bearer <token>"
           in: header
@@ -185,9 +179,14 @@ paths:
           example: 843e5420-e767-45f3-aee3-ca9a16233352
           schema:
             type: string
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       responses:
         '200':
-          description: Update successfully
+          description: Successfully
           content:
             application/json:
               schema:
@@ -200,8 +199,47 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example: 
                 message: Internal Server Error
+  
+    get:
+      tags:
+        - Product
+      summary: Get Product by id
+      parameters:
+        - name: Authorization
+          description: "Authorization Bearer <token>"
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Transaction-Id
+          description: "Unique Transaction Id in UUID v4 format"
+          in: header
+          required: true
+          example: 843e5420-e767-45f3-aee3-ca9a16233352
+          schema:
+            type: string
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseProduct'
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: 
+                message: Internal Server Error
 
-  /api/list-products:
+  /api/products:
     get:
       tags:
         - Product
@@ -227,7 +265,169 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseListProducts'
+                $ref: '#/components/schemas/ResponseProduct2'
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: 
+                message: Internal Server Error
+
+  /api/product/name/{name}:
+    get:
+      tags:
+        - Product
+      summary: Get product by name without case sensitive
+      parameters:
+        - name: Authorization
+          description: "Authorization Bearer <token>"
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Transaction-Id
+          description: "Unique Transaction Id in UUID v4 format"
+          in: header
+          required: true
+          example: 843e5420-e767-45f3-aee3-ca9a16233352
+          schema:
+            type: string
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseProduct'
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: 
+                message: Internal Server Error
+
+  /api/product/category/{categoryId}:
+    get:
+      tags:
+        - Product
+      summary: Get product by categoryId 
+      parameters:
+        - name: Authorization
+          description: "Authorization Bearer <token>"
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Transaction-Id
+          description: "Unique Transaction Id in UUID v4 format"
+          in: header
+          required: true
+          example: 843e5420-e767-45f3-aee3-ca9a16233352
+          schema:
+            type: string
+        - in: path
+          name: categoryId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseProduct2'
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: 
+                message: Internal Server Error
+
+  /api/product/supplier/{supplierId}:
+    get:
+      tags:
+        - Product
+      summary: Get product by supplierId 
+      parameters:
+        - name: Authorization
+          description: "Authorization Bearer <token>"
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Transaction-Id
+          description: "Unique Transaction Id in UUID v4 format"
+          in: header
+          required: true
+          example: 843e5420-e767-45f3-aee3-ca9a16233352
+          schema:
+            type: string
+        - in: path
+          name: supplierId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseProduct2'
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: 
+                message: Internal Server Error
+
+
+  /api/product/check-stock:
+    post:
+      tags:
+        - Product
+      summary: Checks the stock of an array of products
+      parameters:
+        - name: Authorization
+          description: "Authorization Bearer <token>"
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Transaction-Id
+          description: "Unique Transaction Id in UUID v4 format"
+          in: header
+          required: true
+          example: 843e5420-e767-45f3-aee3-ca9a16233352
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestProductStock'
+      responses:
+        '200':
+          description: Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseProductStock'
         '500':
           description: Internal Error
           content:
@@ -358,7 +558,7 @@ components:
         message: 
           type: string
           example: "The product was deleted."
-    ResponseListProducts:
+    ResponseProduct2:
       type: object
       properties:
         id: 
@@ -403,6 +603,43 @@ components:
         created_at: 
           type: string
           example: "31/10/2023 16:20:29"
+    RequestProductStock:
+      type: object
+      properties:
+        product:
+          type: array
+          items:
+            type: object
+            anyOf:
+              - $ref: "#/components/schemas/Products"
+              - $ref: "#/components/schemas/Products2"        
+    Products:      
+      type: object
+      properties:
+        productId:
+          type: number
+          example: 1001
+        quantity: 
+          type: number
+          example: 1
+    Products2:      
+      type: object
+      properties:
+        productId:
+          type: number
+          example: 1002
+        quantity: 
+          type: number
+          example: 1
+    ResponseProductStock:
+        type: object
+        properties: 
+          message: 
+            type: string
+            example: "The stock is ok!"
+              
+          
+
 
 
 
