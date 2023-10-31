@@ -38,12 +38,12 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example: 
                 message: Internal Server Error
+
   /api/user/auth:
     post:
       tags:
         - Jwt-Auth
       summary: Create a access token
-      description: Create token.
       requestBody:
         required: true
         content:
@@ -79,16 +79,15 @@ paths:
       tags:
         - Product
       summary: Create a new Product
-      description: Create product.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RequestCreateProduct'
+              $ref: '#/components/schemas/RequestProduct'
       responses:
         '201':
-          description: Token created successfully
+          description: Product created successfully
           content:
             application/json:
               schema:
@@ -101,6 +100,88 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example: 
                 message: Product Not Found
+
+  /api/product/{id}:
+    put:
+      tags:
+        - Product
+      summary: Update a Product
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestProduct'
+      responses:
+        '200':
+          description: Update successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseUpdateProduct'
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: 
+                message: Internal Server Error
+
+  /api/product/delete/{id}:
+    delete:
+      tags:
+        - Product
+      summary: Update a Product
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Update successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDeleteProduct'
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: 
+                message: Internal Server Error
+
+  /api/list-products:
+    get:
+      tags:
+        - Product
+      summary: Get all Products
+      description: list all products.
+      responses:
+        '200':
+          description: List products Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseListProducts'
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: 
+                message: Internal Server Error
 
 components: 
   schemas:
@@ -130,7 +211,7 @@ components:
         accessToken: 
           type: string
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoVXNlciI6eyJpZCI6MSwibmFtZSI6IlVzZXIgVGVzdCAxIiwiZW1haWwiOiJ0ZXN0ZXVzZXIxQGdtYWlsLmNvbSJ9LCJpYXQiOjE2MzM3OTk5MzUsImV4cCI6MTYzMzg4NjMzNX0.2AWPeoHSYUW_nGeLsx6rEOhm99ZfNZ8pQXPTJ0fwbDU"
-    RequestCreateProduct:
+    RequestProduct:
       type: object
       properties:
         name: 
@@ -190,6 +271,85 @@ components:
         created_at: 
           type: string
           example: "31/10/2023 16:20:29"
+    QuantityUpdate:
+      type: object
+      properties:
+        quantity_available: 
+          type: integer
+          example: 3
+        created_at: 
+          type: string
+          example: null
+    ResponseUpdateProduct: 
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 1001
+        name: 
+          type: string
+          example: "Playstation 5"
+        supplierId: 
+          allOf:
+            - $ref: "#/components/schemas/Supplier"
+        categoryId: 
+          allOf:
+            - $ref: "#/components/schemas/Category"
+        quantity_available: 
+          allOf:
+            - $ref: "#/components/schemas/QuantityUpdate"
+    ResponseDeleteProduct: 
+      type: object
+      properties: 
+        message: 
+          type: string
+          example: "The product was deleted."
+    ResponseListProducts:
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 1001
+        name: 
+          type: string
+          example: "Kindle"
+        supplierId: 
+          allOf:
+            - $ref: "#/components/schemas/Supplier2"
+        categoryId: 
+          allOf:
+            - $ref: "#/components/schemas/Category2"
+        quantity_available: 
+          allOf:
+            - $ref: "#/components/schemas/Quantity2"
+    Supplier2:
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 1001
+        name: 
+          type: string
+          example: "Amazon"
+    Category2: 
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 1001
+        description: 
+          type: string
+          example: "Amazon Kindle 5.0"
+    Quantity2:
+      type: object
+      properties:
+        quantity_available: 
+          type: integer
+          example: 2
+        created_at: 
+          type: string
+          example: "31/10/2023 16:20:29"
+
 
 
 
