@@ -436,6 +436,47 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example: 
                 message: Internal Server Error
+  
+  /api/product/{productId}/sales:
+    post:
+      tags:
+        - Product
+      summary: Search for the product with all the IDs of the orders placed by it
+      parameters:
+        - name: Authorization
+          description: "Authorization Bearer <token>"
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Transaction-Id
+          description: "Unique Transaction Id in UUID v4 format"
+          in: header
+          required: true
+          example: 843e5420-e767-45f3-aee3-ca9a16233352
+          schema:
+            type: string
+        - in: path
+          name: productId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseProductSale'
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: 
+                message: Internal Server Error
+
 
 components: 
   schemas:
@@ -637,7 +678,32 @@ components:
           message: 
             type: string
             example: "The stock is ok!"
-              
+    ResponseProductSale:
+        type: object
+        properties:
+          id: 
+            type: integer
+            example: 1
+          name: 
+            type: string
+            example: "Playstation 5"
+          supplierId: 
+            allOf:
+              - $ref: "#/components/schemas/Supplier"
+          categoryId: 
+            allOf:
+              - $ref: "#/components/schemas/Category"
+          quantity_available: 
+            allOf:
+              - $ref: "#/components/schemas/Quantity"
+          sales: 
+            type: array
+            items:
+              type: string
+              example: 
+                - "6161cd32560fbede60d48efc"
+                - "6161cd32560fbede60d48efe"
+                - "6161d007560fbede60d48f01"
           
 
 
