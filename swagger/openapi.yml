@@ -79,6 +79,20 @@ paths:
       tags:
         - Product
       summary: Create a new Product
+      parameters:
+        - name: Authorization
+          description: "Authorization Bearer <token>"
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Transaction-Id
+          description: "Unique Transaction Id in UUID v4 format"
+          in: header
+          required: true
+          example: 843e5420-e767-45f3-aee3-ca9a16233352
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -112,6 +126,19 @@ paths:
           schema:
             type: integer
           required: true
+        - name: Authorization
+          description: "Authorization Bearer <token>"
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Transaction-Id
+          description: "Unique Transaction Id in UUID v4 format"
+          in: header
+          required: true
+          example: 843e5420-e767-45f3-aee3-ca9a16233352
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -145,6 +172,19 @@ paths:
           schema:
             type: integer
           required: true
+        - name: Authorization
+          description: "Authorization Bearer <token>"
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Transaction-Id
+          description: "Unique Transaction Id in UUID v4 format"
+          in: header
+          required: true
+          example: 843e5420-e767-45f3-aee3-ca9a16233352
+          schema:
+            type: string
       responses:
         '200':
           description: Update successfully
@@ -166,6 +206,20 @@ paths:
       tags:
         - Product
       summary: Get all Products
+      parameters:
+        - name: Authorization
+          description: "Authorization Bearer <token>"
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Transaction-Id
+          description: "Unique Transaction Id in UUID v4 format"
+          in: header
+          required: true
+          example: 843e5420-e767-45f3-aee3-ca9a16233352
+          schema:
+            type: string
       description: list all products.
       responses:
         '200':
